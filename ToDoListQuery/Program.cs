@@ -47,61 +47,60 @@ var section = builder.Configuration.GetSection("CosmosDb");
 builder.Services.AddSingleton<ICosmosDBConsumer>(
     InitializeCosmosClientInstanceAsync(section).GetAwaiter().GetResult());
 
-#region RabbitMQ receiver
+//#region RabbitMQ receiver
 //Here we specify the Rabbit MQ Server. we use rabbitmq docker image and use it
-var factory = new ConnectionFactory
-{
-    HostName = "localhost"
-};
+//var factory = new ConnectionFactory
+//{
+//    HostName = "localhost"
+//};
 
 //Create the RabbitMQ connection using connection factory details as i mentioned above
-var connection = factory.CreateConnection();
-
+//
 //Here we create channel with session and model
-using var channel = connection.CreateModel();
+//using var channel = connection.CreateModel();
 
 //declare the queue after mentioning name and a few property related to that
-channel.QueueDeclare("todoList", exclusive: false);
+//channel.QueueDeclare("todoList", exclusive: false);
 
-//Set Event object which listen message from chanel which is sent by producer
-var consumer = new EventingBasicConsumer(channel);
-consumer.Received += (model, eventArgs) =>
-{
-    var body = eventArgs.Body.ToArray();
-    var message = Encoding.UTF8.GetString(body);
+////Set Event object which listen message from chanel which is sent by producer
+//var consumer = new EventingBasicConsumer(channel);
+//consumer.Received += (model, eventArgs) =>
+//{
+//    var body = eventArgs.Body.ToArray();
+//    var message = Encoding.UTF8.GetString(body);
 
-    Console.WriteLine($"todoList message received: {message}");
-    var section = builder.Configuration.GetSection("CosmosDb");
-    var databaseName = section["DatabaseName"];
-    var containerName = section["ContainerName"];
-    var account = section["Account"];
-    var key = section["Key"];
-    var client = new Microsoft.Azure.Cosmos.CosmosClient(account, key);
-    CosmosDBConsumerService obj = new CosmosDBConsumerService(client, databaseName, containerName);
-    try
-    {
-        var result = JsonConvert.DeserializeObject<Item>(message);
-        obj.UpsertItemAsync(result);
-    }
-    catch (JsonSerializationException)
-    {
-        var result = JsonConvert.DeserializeObject<string>(message);
-        obj.DeleteAsync(result);
-    }
+//    Console.WriteLine($"todoList message received: {message}");
+//    var section = builder.Configuration.GetSection("CosmosDb");
+//    var databaseName = section["DatabaseName"];
+//    var containerName = section["ContainerName"];
+//    var account = section["Account"];
+//    var key = section["Key"];
+//    var client = new Microsoft.Azure.Cosmos.CosmosClient(account, key);
+//    CosmosDBConsumerService obj = new CosmosDBConsumerService(client, databaseName, containerName);
+//    try
+//    {
+//        var result = JsonConvert.DeserializeObject<Item>(message);
+//        obj.UpsertItemAsync(result);
+//    }
+//    catch (JsonSerializationException)
+//    {
+//        var result = JsonConvert.DeserializeObject<string>(message);
+//        obj.DeleteAsync(result);
+//    }
    
-    //if (result is Item)
-    //{
-    //    obj.UpsertItemAsync(result);
-    //}
-    //else
-    //{
-    //    obj.DeleteAsync(result.ToString());
-    //}
-};
+//    //if (result is Item)
+//    //{
+//    //    obj.UpsertItemAsync(result);
+//    //}
+//    //else
+//    //{
+//    //    obj.DeleteAsync(result.ToString());
+//    //}
+//};
 
-//read the message
-channel.BasicConsume(queue: "todoList", autoAck: true, consumer: consumer);
-#endregion
+////read the message
+//channel.BasicConsume(queue: "todoList", autoAck: true, consumer: consumer);
+//#endregion
 
 // Add services to the container.
 builder.Services.AddControllers();

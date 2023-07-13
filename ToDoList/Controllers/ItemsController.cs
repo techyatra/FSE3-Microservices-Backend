@@ -14,13 +14,15 @@ namespace ToDoList.Controllers
     [ApiController]
     public class ItemsController : ControllerBase
     {
-        private readonly IRabitMQProducer _rabitMQProducer;
+        //private readonly IRabitMQProducer _rabitMQProducer;
         private readonly ICosmosDbService _cosmosDbService;
         private readonly IValidator<Item> _validator;
-        public ItemsController(ICosmosDbService cosmosDbService, IRabitMQProducer rabitMQProducer, IValidator<Item> validator)
+        public ItemsController(ICosmosDbService cosmosDbService
+            //, IRabitMQProducer rabitMQProducer
+            , IValidator<Item> validator)
         {
             _cosmosDbService = cosmosDbService ?? throw new ArgumentNullException(nameof(cosmosDbService));
-            _rabitMQProducer = rabitMQProducer;
+           // _rabitMQProducer = rabitMQProducer;
             _validator = validator;
         }
        
@@ -44,7 +46,7 @@ namespace ToDoList.Controllers
             item.Id = DateTime.Now.Ticks.ToString();
             await _cosmosDbService.AddAsync(item);
             var data = _cosmosDbService.GetAsync(item.Id).GetAwaiter().GetResult();
-            _rabitMQProducer.SendItemMessage(item);
+           // _rabitMQProducer.SendItemMessage(item);
 
             return Ok(data);
         }
@@ -66,7 +68,7 @@ namespace ToDoList.Controllers
             }
 
             await _cosmosDbService.UpdateAsync(item.Id, item);
-            _rabitMQProducer.SendItemMessage(item);
+          //  _rabitMQProducer.SendItemMessage(item);
             return NoContent();
         }
         // DELETE api/items/5
@@ -74,7 +76,7 @@ namespace ToDoList.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             await _cosmosDbService.DeleteAsync(id);
-            _rabitMQProducer.SendItemMessage(id);
+            //_rabitMQProducer.SendItemMessage(id);
             return NoContent();
 
         }

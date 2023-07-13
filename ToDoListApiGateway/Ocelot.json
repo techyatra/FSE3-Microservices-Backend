@@ -7,8 +7,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7137
+          "Host": "fse3authentication.azurewebsites.net"
+          //"Port": 7137
         }
       ]
     },
@@ -19,8 +19,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7010
+          "Host": "todolistmanagement.azurewebsites.net"
+          //"Port": 7010
         }
       ],
       "AuthenticationOptions": {
@@ -35,8 +35,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7010
+          "Host": "todolistmanagement.azurewebsites.net"
+          //"Port": 7010
         }
       ],
       "AuthenticationOptions": {
@@ -51,8 +51,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7010
+          "Host": "todolistmanagement.azurewebsites.net"
+         // "Port": 7010
         }
       ],
       "AuthenticationOptions": {
@@ -67,8 +67,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7036
+          "Host": "todolistquery.azurewebsites.net"
+          //"Port": 7036
         }
       ],
       "AuthenticationOptions": {
@@ -83,8 +83,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7036
+          "Host": "todolistquery.azurewebsites.net"
+          //"Port": 7036
         }
       ],
       "AuthenticationOptions": {
